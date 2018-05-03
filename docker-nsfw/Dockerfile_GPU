@@ -1,0 +1,48 @@
+FROM bvlc/caffe:gpu
+
+# Not setting up user to avoid permission issues
+# Using git:// to avoid https issues
+
+# Create folder for scripts and attached volume
+RUN mkdir -p /data/aiwg
+WORKDIR /data
+
+# Clone base script
+RUN git clone --progress --verbose git://github.com/Evolving-AI-Lab/synthesizing.git
+WORKDIR synthesizing
+
+# Adjust settings for Caffe installation (overwriting existing settings.py from repository)
+ADD settings_CPU.py settings.py
+
+# Download/copy models
+
+RUN bash nets/upconv/download.sh
+# ADD nets/upconv/fc6/generator.caffemodel nets/upconv/fc6/generator.caffemodel
+
+RUN mkdir nets/open_nsfw
+RUN git clone --progress --verbose git://github.com/yahoo/open_nsfw.git
+RUN mv open_nsfw/nsfw_model/resnet_50_1by2_nsfw.caffemodel nets/open_nsfw/resnet_50_1by2_nsfw.caffemodel
+RUN rm -rf open_nsfw
+# ADD nets/open_nsfw/resnet_50_1by2_nsfw.caffemodel nets/open_nsfw/resnet_50_1by2_nsfw.caffemodel
+# Modified deploy.prototxt to force backward pass
+ADD nets/open_nsfw/deploy.prototxt nets/open_nsfw/deploy.prototxt
+
+# Install conda
+ENV CONDA_DIR /opt/conda
+ENV PATH $CONDA_DIR/bin:$PATH
+RUN wget --quiet --no-check-certificate https://repo.continuum.io/miniconda/Miniconda3-4.2.12-Linux-x86_64.sh && \
+    echo "c59b3dd3cad550ac7596e0d599b91e75d88826db132e4146030ef471bb434e9a *Miniconda3-4.2.12-Linux-x86_64.sh" | sha256sum -c - && \
+    /bin/bash Miniconda3-4.2.12-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Miniconda3-4.2.12-Linux-x86_64.sh && \
+    echo export PATH=$CONDA_DIR/bin:'$PATH' > /etc/profile.d/conda.sh
+
+RUN conda install -y python=2.7 && \
+    conda install notebook numpy scikit-image scipy six protobuf=2.6.1 && \
+    conda clean -yt
+
+ADD jupyter_notebook_config.py /data/jupyter_notebook_config.py
+WORKDIR /data/aiwg
+
+EXPOSE 8888
+
+CMD jupyter notebook --allow-root --port=8888 --ip=* --no-browser --config=/data/jupyter_notebook_config.py
