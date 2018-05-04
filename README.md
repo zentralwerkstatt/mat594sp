@@ -8,7 +8,7 @@ We provide all code in the form of Jupyter notebooks. You can either run these i
 
 <p align="center">
     <a href="https://xkcd.com/1988/">
-        <img href="https://imgs.xkcd.com/comics/containers.png" />
+        <img src="https://imgs.xkcd.com/comics/containers.png" />
     </a>
 </p>
 
