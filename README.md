@@ -27,7 +27,7 @@ We provide two containers: one to run notebook `5-nsfw.ipynb` which is based on 
 2. Open a terminal and navigate to the downloaded repository directory, either using `cd` or by just dragging the folder onto the terminal window. Then navigate to the docker subfolder (e.g. `cd docker-nsfw` or `cd docker-keras`).
 3. Execute the run script by executing `./run_cpu.sh`. In Ubuntu (and assuming you have a GPU), you can run the container with GPU support via CUDA by executing `./run_gpu.sh`.
 4. Docker should download all the requirements (this will take a while, depending on your connection) and run the container.
-5. If you see Jupyter's status message (`The Jupyter Notebook is running at http://[all ip addresses on your system]:8888`), everyting is working.
+5. If you see Jupyter's status message (`The Jupyter Notebook is running at http://[all ip addresses on your system]:8888`), everything is working.
 6. Open a browser of your choice and navigate to `http://127.0.0.1:8888`. You should see a password field. Enter the password specified above.
 7. The Jupyter notebook interface should open, and you should be able to run the notebooks that came with the git repository.
 
