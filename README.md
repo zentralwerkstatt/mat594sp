@@ -6,6 +6,8 @@ Syllabus and readings: https://zentralwerkstatt.org/page_teaching.html
 
 We provide all code in the form of Jupyter notebooks. You can either run these in your own Python environment by installing the necessary dependencies, or use the provided Docker containers.
 
+[![](https://imgs.xkcd.com/comics/containers.png)](https://xkcd.com/1988/)
+
 ### Installation
 
 We support (Ubuntu) Linux and MacOS. For Windows, the process should be almost the same. Depending on the terminal emulation that you use, you will have to run the docker command in the run scripts yourself.
