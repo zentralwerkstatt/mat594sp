@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libgl1-mesa-glx \
       libhdf5-dev \
       openmpi-bin \
+      ca-certificates \
       wget && \
     rm -rf /var/lib/apt/lists/*
 
@@ -39,7 +40,6 @@ RUN conda install \
       pyyaml \
       scikit-learn \
       six \
-      theano \
       cython \
       gensim
 RUN pip --default-timeout=1000 install --upgrade pip
@@ -47,13 +47,8 @@ RUN pip --default-timeout=1000 install sklearn_pandas tensorflow-gpu keras
 RUN conda install -c conda-forge spacy
 RUN conda clean -yt
 
-ADD theanorc /home/keras/.theanorc
-
 # Download English language package for SpaCy
 RUN python -m spacy download en
-
-RUN mkdir /home/keras/.jupyter
-ADD jupyter_notebook_config.py /home/keras/.jupyter/jupyter_notebook_config.py
 
 # Set up volume
 RUN mkdir /data
@@ -61,4 +56,4 @@ RUN mkdir /data
 # Set up Jupyter with password and run
 WORKDIR /data
 EXPOSE 8888
-CMD jupyter notebook --allow-root --port=8888 --ip=* --no-browser
+CMD jupyter notebook --allow-root --port=8888 --ip=* --no-browser --config="/data/docker-keras/jupyter_notebook_config.py"
