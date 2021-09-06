@@ -1,7 +1,5 @@
 # Code resources for MAT594SP
 
-Syllabus and readings: https://github.com/zentralwerkstatt/teaching/blob/master/mat594sp.md
-
 ## Docker 
 
 We provide all code in the form of Jupyter notebooks. You can either run these in your own Python environment by installing the necessary dependencies, or use the provided Docker containers.
